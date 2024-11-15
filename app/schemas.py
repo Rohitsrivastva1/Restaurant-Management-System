@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,EmailStr
 
 class MenuItemCreate(BaseModel):
     section_id: int
@@ -15,3 +15,11 @@ class MenuItemOut(BaseModel):
 
     class Config:
         orm_mode = True
+class UserBase(BaseModel):
+    email: EmailStr
+
+class UserCreate(UserBase):
+    password: str
+
+class UserLogin(UserBase):
+    password: str

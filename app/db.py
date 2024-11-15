@@ -7,6 +7,7 @@ import os
 
 # Database URL (adjust this according to your database settings)
 DATABASE_URL = "postgresql://rsadmin:fGA0SHmsnvbTNj4BbAIwZf2HKqUusPpS@dpg-cspn45e8ii6s73bq3jc0-a/qrcodedb_a0yh"
+# DATABASE_URL = "postgresql://postgres:9695@localhost/restaurant_db"
 
 # SQLAlchemy engine
 engine = create_engine(DATABASE_URL)

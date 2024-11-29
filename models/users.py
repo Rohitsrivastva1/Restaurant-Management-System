@@ -44,4 +44,10 @@ class User(Base):
                 {"full_name": self.full_name, "email":self.email}, SECRET)
         }
         
+def get_profile():
+
+    # user_id_from_token = decode_token(token)
+    # print(user_id_from_token)
+
+    return user_db_service.get_user_by_id(session=session, id=id)
     

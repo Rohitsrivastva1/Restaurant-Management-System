@@ -7,7 +7,7 @@ from Schemas.users import CreateUserSchema, UserSchema
 from sqlalchemy.orm import Session
 from db import get_db
 from models import users as user_model
-
+from Manager import data as managers
 from services.db.user import create_user
 
 app = FastAPI()
@@ -22,6 +22,6 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
 )
-# app.include_router(manager.router, prefix="/manager", tags=["manager"])
+app.include_router(managers.router, prefix="/manager", tags=["manager"])
 app.include_router(auth_router.router, prefix="/auth", tags=["Auth"])
 

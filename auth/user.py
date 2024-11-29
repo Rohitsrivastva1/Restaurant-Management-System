@@ -7,8 +7,10 @@ from models import users as user_model
 from services.db.user import create_user
 from typing import Dict
 from services.db import user as user_db_service
-
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 router = APIRouter()
+
+oAuth2Scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 @router.post('/signup',response_model=UserSchema)
 def sign_up(session:Session=Depends(get_db),payload: CreateUserSchema=Body()):
@@ -33,3 +35,10 @@ def login(payload:UserLoginSchema = Body(),session:Session=Depends(get_db)):
     
     return {"access_tokekn":user.generate_token()}  
 
+@router.get('/profile/{id}',response_model=UserSchema)
+def get_profile(id:int,token:str=Depends(oAuth2Scheme),session:Session=Depends(get_db)):
+
+    # user_id_from_token = decode_token(token)
+    # print(user_id_from_token)
+
+    return user_db_service.get_user_by_id(session=session, id=id)

@@ -32,3 +32,4 @@ def login(payload:UserLoginSchema = Body(),session:Session=Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Credentials")
     
     return {"access_tokekn":user.generate_token()}  
+

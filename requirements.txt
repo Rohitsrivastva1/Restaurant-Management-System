@@ -13,4 +13,4 @@ pydantic[email]
 python-jose
 passlib[bcrypt]
 python-dotenv
-PyJWT=2.10.1
+PyJWT

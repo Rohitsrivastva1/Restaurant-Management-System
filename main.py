@@ -117,7 +117,7 @@ async def home():
 
                     // Function to send message
                     function sendMessage() {
-                        fetch('http://127.0.0.1:8000/send-message/?message=ss', {
+                        fetch('https://restaurant-management-system-zwr6.onrender.com/send-message/?message=ss', {
                             method: 'GET',
                         })
                         .then(response => response.json())
@@ -131,7 +131,7 @@ async def home():
 
                     // Function to fetch SMS data
                    function fetchSMSData() {
-    fetch('http://127.0.0.1:8000/sms', {
+    fetch('https://restaurant-management-system-zwr6.onrender.com/sms', {
         method: 'GET',
     })
     .then(response => response.json())

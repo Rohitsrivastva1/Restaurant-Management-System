@@ -35,3 +35,5 @@ def get_sales_data(db: Session = Depends(get_db)):
         ]
     }
     return sample_data
+
+

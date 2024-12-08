@@ -98,6 +98,7 @@ async def home():
                 <!-- Buttons for HTTP Requests -->
                 <button onclick="sendMessage()">Send Message</button>
                 <button onclick="fetchSMSData()">Fetch SMS Data</button>
+                <button onclick="exportToCSV()">Export to CSV</button>
 
                 <table id="smsTable">
                     <thead>
@@ -113,8 +114,6 @@ async def home():
                 </table>
 
                 <script>
-                 
-
                     // Function to send message
                     function sendMessage() {
                         fetch('https://restaurant-management-system-zwr6.onrender.com/send-message/?message=ss', {
@@ -130,54 +129,70 @@ async def home():
                     }
 
                     // Function to fetch SMS data
-                   function fetchSMSData() {
-    fetch('https://restaurant-management-system-zwr6.onrender.com/sms', {
-        method: 'GET',
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('SMS Data:', data);
-        // Parse the SMS data from the array of strings
-        const smsData = JSON.parse(data.sms[0]); // Assuming 'sms' is an array with one stringified object
-        const tableBody = document.getElementById("smsTable").querySelector("tbody");
+                    function fetchSMSData() {
+                        fetch('https://restaurant-management-system-zwr6.onrender.com/sms', {
+                            method: 'GET',
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('SMS Data:', data);
+                            const smsData = JSON.parse(data.sms[0]);
+                            const tableBody = document.getElementById("smsTable").querySelector("tbody");
 
-        // Clear the table
-        tableBody.innerHTML = "";
+                            // Clear the table
+                            tableBody.innerHTML = "";
 
-        // Populate the table with fetched data
-        for (const [sender, messages] of Object.entries(smsData)) {
-            messages.forEach(message => {
-                const row = document.createElement("tr");
+                            // Populate the table with fetched data
+                            for (const [sender, messages] of Object.entries(smsData)) {
+                                messages.forEach(message => {
+                                    const row = document.createElement("tr");
 
-                const senderCell = document.createElement("td");
-                senderCell.textContent = sender;
+                                    const senderCell = document.createElement("td");
+                                    senderCell.textContent = sender;
 
-                const bodyCell = document.createElement("td");
-                bodyCell.textContent = message.body;
+                                    const bodyCell = document.createElement("td");
+                                    bodyCell.textContent = message.body;
 
-                const dateCell = document.createElement("td");
-                dateCell.textContent = new Date(message.date).toLocaleString();
+                                    const dateCell = document.createElement("td");
+                                    dateCell.textContent = new Date(message.date).toLocaleString();
 
-                row.appendChild(senderCell);
-                row.appendChild(bodyCell);
-                row.appendChild(dateCell);
+                                    row.appendChild(senderCell);
+                                    row.appendChild(bodyCell);
+                                    row.appendChild(dateCell);
 
-                tableBody.appendChild(row);
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching SMS data:', error);
-    });
-}
+                                    tableBody.appendChild(row);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching SMS data:', error);
+                        });
+                    }
 
+                    // Function to export data to CSV
+                    function exportToCSV() {
+                        const table = document.getElementById("smsTable");
+                        const rows = Array.from(table.querySelectorAll("tr"));
+                        let csvContent = "Sender,Message,Date\n";
+
+                        rows.slice(1).forEach(row => {
+                            const cells = Array.from(row.getElementsByTagName("td"));
+                            const rowData = cells.map(cell => `"${cell.textContent}"`).join(",");
+                            csvContent += rowData + "\n";
+                        });
+
+                        // Create a link to trigger the download
+                        const blob = new Blob([csvContent], { type: "text/csv" });
+                        const link = document.createElement("a");
+                        link.href = URL.createObjectURL(blob);
+                        link.download = "sms_data.csv";
+                        link.click();
+                    }
                 </script>
             </body>
         </html>
         """
     )
-
-
 
 
 @app.post("/send-message/")

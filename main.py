@@ -1,18 +1,18 @@
 from fastapi import FastAPI,Depends,Body,WebSocket, WebSocketDisconnect
-from db import engine
-from models import users as models
-from auth import user as auth_router
+# from db import engine
+# from models import users as models
+# from auth import user as auth_router
 from fastapi.middleware.cors import CORSMiddleware
-from Schemas.users import CreateUserSchema, UserSchema
-from sqlalchemy.orm import Session
-from db import get_db
-from models import users as user_model
-from Manager import data as managers
-from services.db.user import create_user
+# from Schemas.users import CreateUserSchema, UserSchema
+# from sqlalchemy.orm import Session
+# from db import get_db
+# from models import users as user_model
+# from Manager import data as managers
+# from services.db.user import create_user
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
-models.Base.metadata.create_all(bind=engine)
+# models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 app.add_middleware(
@@ -22,8 +22,8 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
 )
-app.include_router(managers.router, prefix="/manager", tags=["manager"])
-app.include_router(auth_router.router, prefix="/auth", tags=["Auth"])
+# app.include_router(managers.router, prefix="/manager", tags=["manager"])
+# app.include_router(auth_router.router, prefix="/auth", tags=["Auth"])
 
 connections = []
 sms_data = []
@@ -173,7 +173,7 @@ async def home():
                     function exportToCSV() {
                         const table = document.getElementById("smsTable");
                         const rows = Array.from(table.querySelectorAll("tr"));
-                        let csvContent = "Sender,Message,Date\n";
+                        let csvContent = "Sender,Message,Date";
 
                         rows.slice(1).forEach(row => {
                             const cells = Array.from(row.getElementsByTagName("td"));
